@@ -3,18 +3,30 @@
   <script>
     let canvas;
     let canvasContext;
+    let ballX = 50;
     window.onload = () => {
       console.log("window loaded");
       canvas = document.getElementById("gameCanvas");
       canvasContext = canvas.getContext("2d");
-      // Sets the color of the rectangle that comes after this line
-      // the shapes are drawn in the order they are written
+      drawEverything();
+      setInterval(drawBall, 500);
+    };
+
+    const drawBall = () => {
+      ballX = ballX + 20;
+      canvasContext.fillStyle = "white";
+      canvasContext.fillRect(ballX, 50, 50, 10);
+    };
+
+    const drawEverything = () => {
       canvasContext.fillStyle = "black";
       canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-      canvasContext.fillStyle = "white";
-      canvasContext.fillRect(300, 300, 200, 200);
+      // Sets the color of the rectangle that comes after this line
+      // the shapes are drawn in the order they are written
       canvasContext.fillStyle = "red";
-      canvasContext.fillRect(300, 100, 200, 200);
+      canvasContext.fillRect(0, 400, 10, 100);
+      canvasContext.fillStyle = "blue";
+      canvasContext.fillRect(790, 400, 10, 100);
     };
   </script>
 </html>
