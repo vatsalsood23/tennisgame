@@ -8,10 +8,16 @@
     let ballY = 50;
     let ballSpeedX = 20;
     let ballSpeedY = 4;
+    let paddle1Y = 250;
+    const paddleHeight = 100;
     window.onload = () => {
       canvas = document.getElementById("gameCanvas");
       canvasContext = canvas.getContext("2d");
       setInterval(drawEverything, 200);
+      canvas.addEventListener("mousemove", (event) => {
+        let mousePosition = calculateMousePosition(event);
+        paddle1Y = mousePosition.y;
+      });
     };
 
     // This function draws the ball and takes care of the bouncing of balls from the 2 ends of the canvas
@@ -39,7 +45,7 @@
       drawRect("black", 0, 0, canvas.width, canvas.height);
       drawBall();
       // This is the left paddle
-      drawRect("red", 0, 400, 10, 100);
+      drawRect("red", 0, paddle1Y, 10, 100);
       // This is the right paddle
       drawRect("blue", 790, 400, 10, 100);
     };
@@ -58,6 +64,17 @@
       canvasContext.fillStyle = drawColor;
       canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
       canvasContext.fill();
+    };
+
+    const calculateMousePosition = (event) => {
+      let rect = canvas.getBoundingClientRect();
+      var root = document.documentElement;
+      let mouseX = event.clientX - rect.left - root.scrollLeft;
+      let mouseY = event.clientY - rect.left - root.scrollTop;
+      return {
+        x: mouseX,
+        y: mouseY,
+      };
     };
   </script>
 </html>
