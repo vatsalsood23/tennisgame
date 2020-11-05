@@ -1,43 +1,63 @@
 <html>
   <canvas id="gameCanvas" width="800" height="800"></canvas>
+
   <script>
     let canvas;
     let canvasContext;
     let ballX = 50;
+    let ballY = 50;
     let ballSpeedX = 20;
+    let ballSpeedY = 4;
     window.onload = () => {
       canvas = document.getElementById("gameCanvas");
       canvasContext = canvas.getContext("2d");
-      setInterval(drawEverything, 100);
+      setInterval(drawEverything, 200);
     };
 
     // This function draws the ball and takes care of the bouncing of balls from the 2 ends of the canvas
     const drawBall = () => {
       ballX = ballX + ballSpeedX;
-      canvasContext.fillStyle = "white";
-      ballX >= 800 ? (ballSpeedX = -ballSpeedX) : "";
+      ballY = ballY + ballSpeedY;
       if (ballX >= canvas.width - 10) {
         ballSpeedX = -ballSpeedX;
-      } else if (ballX <= 0) {
+      }
+      if (ballX <= 10) {
         ballSpeedX = Math.abs(ballSpeedX);
       }
-      canvasContext.fillRect(ballX, 50, 10, 10);
+
+      if (ballY >= canvas.height - 10) {
+        ballSpeedY = -ballSpeedY;
+      }
+      if (ballY <= 10) {
+        ballSpeedY = Math.abs(ballSpeedY);
+      }
+      drawCirc(ballX, ballY, 5, "white");
     };
 
+    // This function draws the rectangles and the ball
     const drawEverything = () => {
-      drawShapes("black", 0, 0, canvas.width, canvas.height);
+      drawRect("black", 0, 0, canvas.width, canvas.height);
       drawBall();
+      // This is the left paddle
+      drawRect("red", 0, 400, 10, 100);
+      // This is the right paddle
+      drawRect("blue", 790, 400, 10, 100);
+    };
+
+    // This function draws all the rectangles
+    const drawRect = (color, x, y, width, height) => {
       // Sets the color of the rectangle that comes after this line
       // the shapes are drawn in the order they are written
-      // This is the left paddle
-      drawShapes("red", 0, 400, 10, 100);
-      // This is the right paddle
-      drawShapes("blue", 790, 400, 10, 100);
-    };
-
-    const drawShapes = (color, x, y, width, height) => {
       canvasContext.fillStyle = color;
       canvasContext.fillRect(x, y, width, height);
+    };
+
+    // This funcion draws the play ball
+    const drawCirc = (centerX, centerY, radius, drawColor) => {
+      canvasContext.beginPath();
+      canvasContext.fillStyle = drawColor;
+      canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+      canvasContext.fill();
     };
   </script>
 </html>
