@@ -4,29 +4,40 @@
     let canvas;
     let canvasContext;
     let ballX = 50;
+    let ballSpeedX = 20;
     window.onload = () => {
-      console.log("window loaded");
       canvas = document.getElementById("gameCanvas");
       canvasContext = canvas.getContext("2d");
-      drawEverything();
-      setInterval(drawBall, 500);
+      setInterval(drawEverything, 100);
     };
 
+    // This function draws the ball and takes care of the bouncing of balls from the 2 ends of the canvas
     const drawBall = () => {
-      ballX = ballX + 20;
+      ballX = ballX + ballSpeedX;
       canvasContext.fillStyle = "white";
-      canvasContext.fillRect(ballX, 50, 50, 10);
+      ballX >= 800 ? (ballSpeedX = -ballSpeedX) : "";
+      if (ballX >= canvas.width - 10) {
+        ballSpeedX = -ballSpeedX;
+      } else if (ballX <= 0) {
+        ballSpeedX = Math.abs(ballSpeedX);
+      }
+      canvasContext.fillRect(ballX, 50, 10, 10);
     };
 
     const drawEverything = () => {
-      canvasContext.fillStyle = "black";
-      canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+      drawShapes("black", 0, 0, canvas.width, canvas.height);
+      drawBall();
       // Sets the color of the rectangle that comes after this line
       // the shapes are drawn in the order they are written
-      canvasContext.fillStyle = "red";
-      canvasContext.fillRect(0, 400, 10, 100);
-      canvasContext.fillStyle = "blue";
-      canvasContext.fillRect(790, 400, 10, 100);
+      // This is the left paddle
+      drawShapes("red", 0, 400, 10, 100);
+      // This is the right paddle
+      drawShapes("blue", 790, 400, 10, 100);
+    };
+
+    const drawShapes = (color, x, y, width, height) => {
+      canvasContext.fillStyle = color;
+      canvasContext.fillRect(x, y, width, height);
     };
   </script>
 </html>
